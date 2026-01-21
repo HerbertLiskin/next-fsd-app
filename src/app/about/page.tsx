@@ -1,3 +1,5 @@
+export const dynamic = 'force-static';
+
 export default function About() {
   return (
     <main className="p-8 max-w-4xl mx-auto">
