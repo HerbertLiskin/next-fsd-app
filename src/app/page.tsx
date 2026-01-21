@@ -1,4 +1,5 @@
 import { Counter } from "@features/counter";
+import { WalletBalance } from "@features/wallet";
 
 export default function Home() {
   return (
@@ -9,7 +10,8 @@ export default function Home() {
         </h1>
       </div>
 
-      <div className="mb-12">
+      <div className="mb-12 w-full max-w-md mx-auto">
+        <WalletBalance />
         <Counter />
       </div>
 
