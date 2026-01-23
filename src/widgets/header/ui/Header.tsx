@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import clsx from 'clsx';
-import { ConnectButton, NetworkSelect } from '@features/wallet';
+// import clsx from 'clsx';
+// import { ConnectButton, NetworkSelect } from '@features/wallet';
 
 export const Header = () => {
   return (
@@ -16,10 +16,10 @@ export const Header = () => {
           </Link>
         </nav>
       </div>
-      <div className="flex items-center gap-4">
+      {/* <div className="flex items-center gap-4">
         <NetworkSelect />
         <ConnectButton />
-      </div>
+      </div> */}
     </header>
   );
 };

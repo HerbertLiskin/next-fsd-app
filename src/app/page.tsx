@@ -1,18 +1,18 @@
-import { Counter } from "@features/counter";
-import { WalletBalance } from "@features/wallet";
-import { AuthWidget } from "../features/auth/ui/AuthWidget";
-import { ProfileForm } from "../features/profile/ui/ProfileForm";
+// import { Counter } from "@features/counter";
+// import { WalletBalance } from "@features/wallet";
+// import { AuthWidget } from "../features/auth/ui/AuthWidget";
+// import { ProfileForm } from "../features/profile/ui/ProfileForm";
 
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-brand-tertiary/10">
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex mb-12">
         <h1 className="text-4xl font-bold text-brand-primary text-center w-full">
-          Welcome to Next.js + FSD + Effector
+          Welcome to Next.js + FSD
         </h1>
       </div>
 
-      <div className="mb-12 w-full max-w-md mx-auto space-y-8">
+      {/* <div className="mb-12 w-full max-w-md mx-auto space-y-8">
         <AuthWidget />
         <ProfileForm />
         <div className="border-t pt-8">
@@ -49,7 +49,7 @@ export default function Home() {
             Rapidly build modern websites without ever leaving your HTML.
           </p>
         </div>
-      </div>
+      </div> */}
     </main>
   );
 }
