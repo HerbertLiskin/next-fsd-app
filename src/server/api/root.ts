@@ -1,6 +1,7 @@
-import { createTRPCRouter } from './trpc'
-import { authRouter } from './routers/auth'
-import { profileRouter } from './routers/profile'
+import { createTRPCRouter } from "./trpc";
+import { authRouter } from "./routers/auth";
+import { profileRouter } from "./routers/profile";
+import { walletRouter } from "./routers/wallet";
 
 /**
  * This is the primary router for your server.
@@ -10,7 +11,8 @@ import { profileRouter } from './routers/profile'
 export const appRouter = createTRPCRouter({
   auth: authRouter,
   profile: profileRouter,
-})
+  wallet: walletRouter,
+});
 
 // export type definition of API
-export type AppRouter = typeof appRouter
+export type AppRouter = typeof appRouter;

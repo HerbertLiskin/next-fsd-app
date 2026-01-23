@@ -1,43 +1,44 @@
-'use client'
+"use client";
 
-import { api } from '../../../trpc/react'
-import { useEffect, useState } from 'react'
+import { api } from "../../../trpc/react";
+import { useEffect, useState } from "react";
 
 export const ProfileForm = () => {
-  const [name, setName] = useState('')
-  const [surname, setSurname] = useState('')
-  const [age, setAge] = useState(0)
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [age, setAge] = useState(0);
 
-  const utils = api.useUtils()
+  const utils = api.useUtils();
   const { data: user } = api.profile.me.useQuery(undefined, {
     retry: false,
-  })
+  });
 
   useEffect(() => {
     if (user) {
-      setName(user.name || '')
-      setSurname(user.surname || '')
-      setAge(user.age || 0)
+      if (user.name !== name) setName(user.name || "");
+      if (user.surname !== surname) setSurname(user.surname || "");
+      if (user.age !== age) setAge(user.age || 0);
     }
-  }, [user])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   const updateMutation = api.profile.update.useMutation({
     onSuccess: () => {
-      utils.profile.me.invalidate()
-      alert('Profile updated!')
+      utils.profile.me.invalidate();
+      alert("Profile updated!");
     },
-  })
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     updateMutation.mutate({
       name,
       surname,
       age: Number(age),
-    })
-  }
+    });
+  };
 
-  if (!user) return null
+  if (!user) return null;
 
   return (
     <form
@@ -77,8 +78,8 @@ export const ProfileForm = () => {
         disabled={updateMutation.isPending}
         className="w-full rounded bg-green-600 px-4 py-2 text-white hover:bg-green-700"
       >
-        {updateMutation.isPending ? 'Saving...' : 'Save Profile'}
+        {updateMutation.isPending ? "Saving..." : "Save Profile"}
       </button>
     </form>
-  )
-}
+  );
+};

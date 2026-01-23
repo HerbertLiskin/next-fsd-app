@@ -1,11 +1,13 @@
-import { auth } from '@/server/auth'
-import Image from 'next/image'
-import { LogoutButton } from './LogoutButton'
+import { auth } from "@/server/auth";
+import Image from "next/image";
+import { LogoutButton } from "./LogoutButton";
+import { SmartWalletSection } from "../../wallet/ui/SmartWalletSection";
+import { DeployedWalletsList } from "../../wallet/ui/DeployedWalletsList";
 
 export async function UserProfile() {
-  const session = await auth()
+  const session = await auth();
 
-  if (!session?.user) return null
+  if (!session?.user) return null;
 
   return (
     <div className="flex flex-col gap-4 rounded-lg border bg-white/5 p-4">
@@ -13,7 +15,7 @@ export async function UserProfile() {
         {session.user.image && (
           <Image
             src={session.user.image}
-            alt={session.user.name || 'User Image'}
+            alt={session.user.name || "User Image"}
             width={48}
             height={48}
             className="rounded-full"
@@ -25,7 +27,13 @@ export async function UserProfile() {
           <p className="font-mono text-xs text-gray-500">{session.user.id}</p>
         </div>
       </div>
+
+      <div className="border-t pt-4 border-gray-700 space-y-4">
+        <DeployedWalletsList userId={session.user.id} />
+        <SmartWalletSection userId={session.user.id} />
+      </div>
+
       <LogoutButton />
     </div>
-  )
+  );
 }
