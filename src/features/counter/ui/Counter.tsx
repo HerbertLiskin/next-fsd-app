@@ -1,14 +1,28 @@
 'use client';
 
-import { useUnit } from 'effector-react';
-import { $counter, increment, decrement } from '../model/counter';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const Counter = () => {
-  const [count, inc, dec] = useUnit([$counter, increment, decrement]);
+  const queryClient = useQueryClient();
+  
+  const { data: count } = useQuery({
+    queryKey: ['counter'],
+    queryFn: () => 0,
+    initialData: 0,
+    staleTime: Infinity,
+  });
+
+  const inc = () => {
+    queryClient.setQueryData(['counter'], (oldData: number) => (oldData ?? 0) + 1);
+  };
+
+  const dec = () => {
+    queryClient.setQueryData(['counter'], (oldData: number) => (oldData ?? 0) - 1);
+  };
 
   return (
     <div className="p-6 bg-white dark:bg-neutral-900 rounded-xl shadow-sm border border-brand-secondary/20">
-      <h3 className="text-xl font-bold mb-4 text-brand-primary">Effector Counter</h3>
+      <h3 className="text-xl font-bold mb-4 text-brand-primary">React Query Counter</h3>
       <div className="flex items-center gap-6">
         <button 
           onClick={() => dec()} 
