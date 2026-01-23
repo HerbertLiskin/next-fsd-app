@@ -63,7 +63,7 @@ export const AuthWidget = () => {
       <div className="flex gap-4 items-center p-4 border rounded-lg">
         <div>
           <p className="font-bold">Welcome, {user.name || "User"}</p>
-          <p className="text-xs text-gray-500">{user.address}</p>
+          {user.address && <p className="text-xs text-gray-500">{user.address}</p>}
         </div>
         <button
             onClick={() => logoutMutation.mutate()}

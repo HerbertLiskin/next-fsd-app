@@ -1,9 +1,15 @@
 // import { Counter } from "@features/counter";
 // import { WalletBalance } from "@features/wallet";
-// import { AuthWidget } from "../features/auth/ui/AuthWidget";
+import { AuthWidget } from "../features/auth/ui/AuthWidget";
+import { GoogleAuthButton } from "../features/auth/ui/GoogleAuthButton";
+import { UserProfile } from "../features/auth/ui/UserProfile";
 // import { ProfileForm } from "../features/profile/ui/ProfileForm";
 
-export default function Home() {
+import { auth } from "@/server/auth";
+
+export default async function Home() {
+  const session = await auth();
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-brand-tertiary/10">
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex mb-12">
@@ -12,14 +18,18 @@ export default function Home() {
         </h1>
       </div>
 
-      {/* <div className="mb-12 w-full max-w-md mx-auto space-y-8">
-        <AuthWidget />
-        <ProfileForm />
+      <div className="mb-12 w-full max-w-md mx-auto space-y-8 flex flex-col items-center">
+        <div className="flex flex-col gap-4 w-full items-center">
+             <AuthWidget />
+             {!session && <GoogleAuthButton />}
+        </div>
+        <UserProfile />
+        {/* <ProfileForm />
         <div className="border-t pt-8">
             <h3 className="text-xl font-bold mb-4 text-center">Legacy Counters</h3>
             <WalletBalance />
             <Counter />
-        </div>
+        </div> */}
       </div>
 
       <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-3 lg:text-left mt-12 gap-8">
@@ -49,7 +59,7 @@ export default function Home() {
             Rapidly build modern websites without ever leaving your HTML.
           </p>
         </div>
-      </div> */}
+      </div>
     </main>
   );
 }

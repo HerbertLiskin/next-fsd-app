@@ -6,5 +6,5 @@ export default defineConfig({
   dbCredentials: {
     url: "sqlite.db",
   },
-  tablesFilter: ["next-fsd-app_*"],
+
 }) satisfies Config;

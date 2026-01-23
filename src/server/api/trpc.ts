@@ -17,7 +17,7 @@ import { db } from "../db";
 
 interface Session {
   userId: string;
-  address: string;
+  address: string | null;
 }
 
 export const createTRPCContext = async (opts: { headers: Headers }) => {
