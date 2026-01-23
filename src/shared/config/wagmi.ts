@@ -1,5 +1,12 @@
 import { cookieStorage, createStorage } from 'wagmi'
-import { mainnet, bsc, arbitrum, sepolia, bscTestnet, arbitrumSepolia } from '@reown/appkit/networks'
+import {
+  mainnet,
+  bsc,
+  arbitrum,
+  sepolia,
+  bscTestnet,
+  arbitrumSepolia,
+} from '@reown/appkit/networks'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 
 export const projectId = process.env.NEXT_PUBLIC_PROJECT_ID || 'YOUR_PROJECT_ID'
@@ -16,11 +23,11 @@ export const networks = enableTestnets
 
 export const wagmiAdapter = new WagmiAdapter({
   storage: createStorage({
-    storage: cookieStorage
+    storage: cookieStorage,
   }),
   ssr: true,
   projectId,
-  networks
+  networks,
 })
 
 export const config = wagmiAdapter.wagmiConfig

@@ -1,11 +1,11 @@
-import { initTRPC, TRPCError } from "@trpc/server";
-import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
-import { ZodError } from "zod";
-import { cookies } from "next/headers";
-import { jwtVerify } from "jose";
-import superjson from "superjson";
+import { initTRPC, TRPCError } from '@trpc/server'
+import { type CreateNextContextOptions } from '@trpc/server/adapters/next'
+import { ZodError } from 'zod'
+import { cookies } from 'next/headers'
+import { jwtVerify } from 'jose'
+import superjson from 'superjson'
 
-import { db } from "../db";
+import { db } from '../db'
 
 /**
  * 1. CONTEXT
@@ -16,23 +16,23 @@ import { db } from "../db";
  */
 
 interface Session {
-  userId: string;
-  address: string | null;
+  userId: string
+  address: string | null
 }
 
 export const createTRPCContext = async (opts: { headers: Headers }) => {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("auth-token");
+  const cookieStore = await cookies()
+  const token = cookieStore.get('auth-token')
 
-  let session: Session | null = null;
+  let session: Session | null = null
 
   if (token) {
     try {
       const secret = new TextEncoder().encode(
-        process.env.JWT_SECRET || "supersecretdevkey123"
-      );
-      const { payload } = await jwtVerify(token.value, secret);
-      session = payload as unknown as Session;
+        process.env.JWT_SECRET || 'supersecretdevkey123'
+      )
+      const { payload } = await jwtVerify(token.value, secret)
+      session = payload as unknown as Session
     } catch (err) {
       // Token invalid or expired
     }
@@ -42,8 +42,8 @@ export const createTRPCContext = async (opts: { headers: Headers }) => {
     db,
     session,
     ...opts,
-  };
-};
+  }
+}
 
 /**
  * 2. INITIALIZATION
@@ -60,9 +60,9 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
         zodError:
           error.cause instanceof ZodError ? error.cause.flatten() : null,
       },
-    };
+    }
   },
-});
+})
 
 /**
  * 3. ROUTER & PROCEDURE (THE IMPORTANT BIT)
@@ -76,7 +76,7 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
  *
  * @see https://trpc.io/docs/router
  */
-export const createTRPCRouter = t.router;
+export const createTRPCRouter = t.router
 
 /**
  * Public (unauthenticated) procedure
@@ -85,7 +85,7 @@ export const createTRPCRouter = t.router;
  * guarantee that a user querying is authorized, but you can still access user session data if they
  * are logged in.
  */
-export const publicProcedure = t.procedure;
+export const publicProcedure = t.procedure
 
 /**
  * Protected (authenticated) procedure
@@ -97,12 +97,12 @@ export const publicProcedure = t.procedure;
  */
 export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.userId) {
-    throw new TRPCError({ code: "UNAUTHORIZED" });
+    throw new TRPCError({ code: 'UNAUTHORIZED' })
   }
   return next({
     ctx: {
       // infers the `session` as non-nullable
       session: { ...ctx.session, user: ctx.session },
     },
-  });
-});
+  })
+})

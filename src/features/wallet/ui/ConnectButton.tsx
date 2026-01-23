@@ -13,18 +13,25 @@ export const ConnectButton = () => {
     setMounted(true)
   }, [])
 
-  if (!mounted) return <div className="w-32 h-10 bg-gray-200 rounded animate-pulse" />
+  if (!mounted)
+    return <div className="h-10 w-32 animate-pulse rounded bg-gray-200" />
 
   if (isConnected) {
-     return (
-        <button onClick={() => open()} className="px-4 py-2 bg-brand-primary text-white rounded hover:bg-opacity-90 transition-colors">
-          {address?.slice(0, 6)}...{address?.slice(-4)}
-        </button>
-     )
+    return (
+      <button
+        onClick={() => open()}
+        className="bg-brand-primary hover:bg-opacity-90 rounded px-4 py-2 text-white transition-colors"
+      >
+        {address?.slice(0, 6)}...{address?.slice(-4)}
+      </button>
+    )
   }
 
   return (
-    <button onClick={() => open()} className="px-4 py-2 bg-brand-secondary text-white rounded hover:bg-opacity-90 transition-colors">
+    <button
+      onClick={() => open()}
+      className="bg-brand-secondary hover:bg-opacity-90 rounded px-4 py-2 text-white transition-colors"
+    >
       Connect Wallet
     </button>
   )

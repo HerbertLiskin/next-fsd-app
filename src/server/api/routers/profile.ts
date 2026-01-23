@@ -1,20 +1,20 @@
-import { eq } from "drizzle-orm";
-import { z } from "zod";
+import { eq } from 'drizzle-orm'
+import { z } from 'zod'
 
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
-import { users } from "../../db/schema";
-import { db } from "../../db";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc'
+import { users } from '../../db/schema'
+import { db } from '../../db'
 
 export const profileRouter = createTRPCRouter({
   me: publicProcedure.query(async ({ ctx }) => {
     if (!ctx.session?.userId) {
-        return null;
+      return null
     }
 
     const user = await db.query.users.findFirst({
       where: eq(users.id, ctx.session.userId),
-    });
-    return user || null;
+    })
+    return user || null
   }),
 
   update: protectedProcedure
@@ -29,8 +29,8 @@ export const profileRouter = createTRPCRouter({
       await db
         .update(users)
         .set({ ...input })
-        .where(eq(users.id, ctx.session.userId));
+        .where(eq(users.id, ctx.session.userId))
 
-      return { success: true };
+      return { success: true }
     }),
-});
+})

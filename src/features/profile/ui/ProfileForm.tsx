@@ -1,81 +1,84 @@
-"use client";
+'use client'
 
-import { api } from "../../../trpc/react";
-import { useEffect, useState } from "react";
+import { api } from '../../../trpc/react'
+import { useEffect, useState } from 'react'
 
 export const ProfileForm = () => {
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [age, setAge] = useState(0);
+  const [name, setName] = useState('')
+  const [surname, setSurname] = useState('')
+  const [age, setAge] = useState(0)
 
-  const utils = api.useUtils();
+  const utils = api.useUtils()
   const { data: user } = api.profile.me.useQuery(undefined, {
-      retry: false
-  });
+    retry: false,
+  })
 
   useEffect(() => {
     if (user) {
-      setName(user.name || "");
-      setSurname(user.surname || "");
-      setAge(user.age || 0);
+      setName(user.name || '')
+      setSurname(user.surname || '')
+      setAge(user.age || 0)
     }
-  }, [user]);
+  }, [user])
 
   const updateMutation = api.profile.update.useMutation({
     onSuccess: () => {
-      utils.profile.me.invalidate();
-      alert("Profile updated!");
+      utils.profile.me.invalidate()
+      alert('Profile updated!')
     },
-  });
+  })
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
     updateMutation.mutate({
       name,
       surname,
       age: Number(age),
-    });
-  };
+    })
+  }
 
-  if (!user) return null;
+  if (!user) return null
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 border rounded-lg mt-4 max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4">Edit Profile</h2>
+    <form
+      onSubmit={handleSubmit}
+      className="mx-auto mt-4 max-w-md rounded-lg border p-4"
+    >
+      <h2 className="mb-4 text-xl font-bold">Edit Profile</h2>
       <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">Name</label>
+        <label className="mb-1 block text-sm font-medium">Name</label>
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full px-3 py-2 border rounded bg-transparent"
+          className="w-full rounded border bg-transparent px-3 py-2"
         />
       </div>
       <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">Surname</label>
+        <label className="mb-1 block text-sm font-medium">Surname</label>
         <input
           type="text"
           value={surname}
           onChange={(e) => setSurname(e.target.value)}
-          className="w-full px-3 py-2 border rounded bg-transparent"
+          className="w-full rounded border bg-transparent px-3 py-2"
         />
       </div>
       <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">Age</label>
+        <label className="mb-1 block text-sm font-medium">Age</label>
         <input
           type="number"
           value={age}
           onChange={(e) => setAge(Number(e.target.value))}
-          className="w-full px-3 py-2 border rounded bg-transparent"
+          className="w-full rounded border bg-transparent px-3 py-2"
         />
       </div>
       <button
         type="submit"
         disabled={updateMutation.isPending}
-        className="w-full px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+        className="w-full rounded bg-green-600 px-4 py-2 text-white hover:bg-green-700"
       >
-        {updateMutation.isPending ? "Saving..." : "Save Profile"}
+        {updateMutation.isPending ? 'Saving...' : 'Save Profile'}
       </button>
     </form>
-  );
-};
+  )
+}

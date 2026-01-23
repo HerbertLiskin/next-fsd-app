@@ -13,8 +13,8 @@ if (!projectId) {
 const metadata = {
   name: 'Next FSD App',
   description: 'Next.js FSD App with WalletConnect',
-  url: 'https://example.com', 
-  icons: ['https://avatars.githubusercontent.com/u/37784886']
+  url: 'https://example.com',
+  icons: ['https://avatars.githubusercontent.com/u/37784886'],
 }
 
 // Initialize AppKit
@@ -25,15 +25,27 @@ createAppKit({
   defaultNetwork: networks[0],
   metadata: metadata,
   features: {
-    analytics: true
-  }
+    analytics: true,
+  },
 })
 
-export function Providers({ children, cookies }: { children: ReactNode; cookies: string | null }) {
-  const initialState = cookieToInitialState(wagmiAdapter.wagmiConfig as Config, cookies)
+export function Providers({
+  children,
+  cookies,
+}: {
+  children: ReactNode
+  cookies: string | null
+}) {
+  const initialState = cookieToInitialState(
+    wagmiAdapter.wagmiConfig as Config,
+    cookies
+  )
 
   return (
-    <WagmiProvider config={wagmiAdapter.wagmiConfig as Config} initialState={initialState}>
+    <WagmiProvider
+      config={wagmiAdapter.wagmiConfig as Config}
+      initialState={initialState}
+    >
       <TRPCReactProvider>{children}</TRPCReactProvider>
     </WagmiProvider>
   )
